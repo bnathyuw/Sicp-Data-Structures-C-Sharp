@@ -1,24 +1,27 @@
 namespace DataStructures
 {
-    public class List
+    public static class List
     {
-        public static List Of(params object[] items) => new List(ConsRec(null, items.Length - 1, items));
+        public static List<T> Of<T>(params T[] items) => ConsRec(null, items.Length - 1, items);
 
-        private readonly Cons _cons;
-
-        private List(Cons cons) => _cons = cons;
-
-        public object Car => _cons.Car;
-        public List Cdr => new List((Cons) _cons.Cdr);
-
-        private static Cons ConsRec(Cons currentCons, int index, object[] items)
+        private static List<T> ConsRec<T>(List<T> currentCons, int index, T[] items)
         {
             if (index < 0) return currentCons;
 
-            return ConsRec(Cons.Of(items[index], currentCons), index - 1, items);
+            return ConsRec(new List<T>(Cons.Of(items[index], currentCons)), index - 1, items);
         }
+    }
+    
+    public class List<T>
+    {
+        private readonly Cons<T, List<T>> _cons;
 
-        public object ListRef(int index)
+        internal List(Cons<T, List<T>> cons) => _cons = cons;
+
+        public T Car => _cons.Car;
+        public List<T> Cdr => _cons.Cdr;
+
+        public T ListRef(int index)
         {
             if(index == 0)
                 return Car;

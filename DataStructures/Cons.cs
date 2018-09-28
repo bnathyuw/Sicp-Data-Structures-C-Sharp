@@ -1,14 +1,20 @@
 namespace DataStructures
 {
-    public class Cons
+    public static class Cons
     {
-        public static Cons Of(object address, object decrement) => new Cons(address, decrement);
+        public static Cons<TAddress,TDecrement> Of<TAddress,TDecrement>(TAddress address, TDecrement decrement) => new Cons<TAddress,TDecrement>(address, decrement);
+    }
+    
+    public class Cons<TAddress,TDecrement>
+    {
+        internal Cons(TAddress address, TDecrement decrement)
+        {
+            Car = address;
+            Cdr = decrement;
+        }
 
-        private readonly object[] _foo;
+        public TAddress Car { get; }
 
-        private Cons(object address, object decrement) => _foo = new[] {address, decrement};
-
-        public object Car => _foo[0];
-        public object Cdr => _foo[1];
+        public TDecrement Cdr { get; }
     }
 }
