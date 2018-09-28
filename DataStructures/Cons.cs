@@ -2,19 +2,19 @@ namespace DataStructures
 {
     public static class Cons
     {
-        public static Cons<TAddress,TDecrement> Of<TAddress,TDecrement>(TAddress address, TDecrement decrement) => new Cons<TAddress,TDecrement>(address, decrement);
+        public static Cons<TA,TD> Of<TA,TD>(TA address, TD decrement) => new Cons<TA,TD>(address, decrement);
     }
     
-    public class Cons<TAddress,TDecrement>
+    public class Cons<TA,TD>
     {
-        internal Cons(TAddress address, TDecrement decrement)
+        internal Cons(TA address, TD decrement)
         {
             Car = address;
             Cdr = decrement;
         }
 
-        public TAddress Car { get; }
+        public TA Car { get; }
 
-        public TDecrement Cdr { get; }
+        public TD Cdr { get; }
     }
 }
