@@ -17,5 +17,13 @@ namespace DataStructures
 
             return ConsRec(Cons.Of(items[index], currentCons), index - 1, items);
         }
+
+        public object ListRef(int index)
+        {
+            if(index == 0)
+                return Car;
+
+            return Cdr.ListRef(index - 1);
+        }
     }
 }
