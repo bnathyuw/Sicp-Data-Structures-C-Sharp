@@ -11,27 +11,6 @@ namespace DataStructures
                 ? currentCons
                 : ConsIter(new List<T>(Cons.Of(items[index], currentCons)), index - 1, items);
 
-        public static List<T> Append<T>(this List<T> list1, List<T> list2) =>
-            list1.Null
-                ? list2
-                : new List<T>(Cons.Of(list1.Car, list1.Cdr.Append(list2)));
-
-        public static T ListRef<T>(this List<T> list, int index) =>
-            index == 0
-                ? list.Car
-                : list.Cdr.ListRef(index - 1);
-
-        public static int Length<T>(this List<T> list) => LengthIter(list, 0);
-
-        private static int LengthIter<T>(List<T> list, int runningTotal) =>
-            list.Null
-                ? runningTotal
-                : LengthIter(list.Cdr, runningTotal + 1);
-
-        public static List<TOut> Map<TOut, T>(this List<T> list, Func<T, TOut> proc) =>
-            list.Null
-                ? new List<TOut>(null)
-                : new List<TOut>(Cons.Of(proc(list.Car), list.Cdr.Map(proc)));
     }
 
     public class List<T>
@@ -40,10 +19,29 @@ namespace DataStructures
 
         internal List(Cons<T, List<T>> cons) => _cons = cons;
 
-        public T Car => _cons.Car;
-        
-        public List<T> Cdr => _cons.Cdr;
-        
-        public bool Null => _cons is null;
+        private bool Null => _cons is null;
+
+        public List<T> Append(List<T> list2) =>
+            Null
+                ? list2
+                : new List<T>(Cons.Of(_cons.Car, _cons.Cdr.Append(list2)));
+
+        public T ListRef(int index) =>
+            index == 0
+                ? _cons.Car
+                : _cons.Cdr.ListRef(index - 1);
+
+        public int Length() => LengthIter(this, 0);
+
+        private static int LengthIter(List<T> list, int runningTotal) =>
+            list.Null
+                ? runningTotal
+                : LengthIter(list._cons.Cdr, runningTotal + 1);
+
+        public List<TOut> Map<TOut>(Func<T, TOut> proc) =>
+            Null
+                ? new List<TOut>(null)
+                : new List<TOut>(Cons.Of(proc(_cons.Car), _cons.Cdr.Map(proc)));
+
     }
 }

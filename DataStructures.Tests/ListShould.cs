@@ -8,23 +8,18 @@ namespace DataStructures.Tests
     public class ListShould
     {
         [Property]
-        public void ExposeCar(NonEmptyArray<object> items) =>
-            List.Of(items.Get).Car.Should().Be(items.Get[0]);
+        public void ExposeFirstItem(NonEmptyArray<object> items) =>
+            List.Of(items.Get).ListRef(0).Should().Be(items.Get[0]);
+        
+        [Property]
+        public void ExposeLastItem(NonEmptyArray<object> items)
+        {
+            var lastItemIndex = items.Get.Length - 1;
+            List.Of(items.Get).ListRef(lastItemIndex).Should().Be(items.Get[lastItemIndex]);
+        }
 
         [Property]
-        public void ListRef0(object item1) =>
-            List.Of(item1).ListRef(0).Should().Be(item1);
-
-        [Property]
-        public void ListRef1(object item1, object item2) => 
-            List.Of(item1, item2).ListRef(1).Should().Be(item2);
-
-        [Property]
-        public void ListRef2(object item1, object item2, object item3) =>
-            List.Of(item1, item2, item3).ListRef(2).Should().Be(item3);
-
-        [Property]
-        public void HaveLength(object[] items) =>
+        public void ExposeLength(object[] items) =>
             List.Of(items).Length().Should().Be(items.Length);
 
         [Property]
@@ -37,6 +32,6 @@ namespace DataStructures.Tests
 
         [Property]
         public void MapCar(NonEmptyArray<int> items, Func<int, int> proc) =>
-            List.Of(items.Get).Map(proc).Car.Should().Be(proc(items.Get[0]));
+            List.Of(items.Get).Map(proc).ListRef(0).Should().Be(proc(items.Get[0]));
     }
 }
