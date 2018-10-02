@@ -16,8 +16,8 @@ namespace DataStructures
     public class List<T>
     {
         private readonly Cons<T, List<T>> _cons;
-
-        internal List(Cons<T, List<T>> cons) => _cons = cons;
+        
+        public List(Cons<T, List<T>> cons) => _cons = cons;
 
         private bool Null => _cons is null;
 
@@ -31,7 +31,7 @@ namespace DataStructures
                 ? _cons.Car
                 : _cons.Cdr.ListRef(index - 1);
 
-        public int Length() => LengthIter(this, 0);
+        public int Length => LengthIter(this, 0);
 
         private static int LengthIter(List<T> list, int runningTotal) =>
             list.Null
