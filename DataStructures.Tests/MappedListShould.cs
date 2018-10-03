@@ -4,20 +4,21 @@ using FsCheck.Xunit;
 
 namespace DataStructures.Tests
 {
+    [Properties(Arbitrary=new[]{typeof(GenerateArbitrary)})]
     public class MappedListShould
     {
-        [Property(Arbitrary = new[]{typeof(ListArbitrary)})]
+        [Property]
         public void HaveSameLengthAsInputList(List<object> list, Func<object, object> proc) => 
             list.Map(proc).Length
                 .Should().Be(list.Length);
 
-        [Property(Arbitrary = new[]{typeof(NonEmptyListArbitrary)})]
-        public void MapFirstItemInInputList(List<object> list, Func<object, object> proc) =>
+        [Property]
+        public void MapFirstItemInInputList(NonEmptyList<object> list, Func<object, object> proc) =>
             list.Map(proc).ListRef(0)
                 .Should().Be(proc(list.ListRef(0)));
 
-        [Property(Arbitrary = new[]{typeof(NonEmptyListArbitrary)})]
-        public void MapListItemInInputList(List<object> list, Func<object, object> proc) =>
+        [Property]
+        public void MapListItemInInputList(NonEmptyList<object> list, Func<object, object> proc) =>
             list.Map(proc).ListRef(list.Length - 1)
                 .Should().Be(proc(list.ListRef(list.Length - 1)));
     }
