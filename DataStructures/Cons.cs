@@ -16,5 +16,7 @@ namespace DataStructures
         public TA Car { get; }
 
         public TD Cdr { get; }
+
+        public override string ToString() => $"({Car}:{Cdr})";
     }
 }

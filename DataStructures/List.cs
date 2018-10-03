@@ -43,5 +43,11 @@ namespace DataStructures
                 ? new List<TOut>(null)
                 : new List<TOut>(Cons.Of(proc(_cons.Car), _cons.Cdr.Map(proc)));
 
+        public List<T> InsertAt(int index, T item) =>
+            index == 0
+                ? new List<T>(Cons.Of(item, this))
+                : new List<T>(Cons.Of(_cons.Car, _cons.Cdr.InsertAt(index - 1, item)));
+
+        public override string ToString() => Null ? "" : $"{_cons}";
     }
 }

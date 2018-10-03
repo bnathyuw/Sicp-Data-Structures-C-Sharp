@@ -21,6 +21,8 @@ namespace DataStructures.Tests
 
         public List<TOut> Map<TOut>(Func<T, TOut> proc) => _list.Map(proc);
 
+        public List<T> InsertAt(int index, T item) => _list.InsertAt(index, item);
+        
         public static implicit operator List<T>(NonEmptyList<T> nonEmptyList) => nonEmptyList._list;
 
         public static implicit operator NonEmptyList<T>(List<T> list) => new NonEmptyList<T>(list);
