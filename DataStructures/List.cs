@@ -4,13 +4,17 @@ namespace DataStructures
 {
     public static class List
     {
-        public static List<T> Of<T>(params T[] items) => ConsIter(new List<T>(null), items.Length - 1, items);
+        public static List<T> Of<T>(params T[] items) =>
+            items.Length == 0
+                ? new List<T>(null)
+                : new List<T>(Cons.Of(items[0], Of(items.Tail())));
 
-        private static List<T> ConsIter<T>(List<T> currentCons, int index, T[] items) =>
-            index < 0
-                ? currentCons
-                : ConsIter(new List<T>(Cons.Of(items[index], currentCons)), index - 1, items);
-
+        private static T[] Tail<T>(this T[] items)
+        {
+            var newItems = new T[items.Length - 1];
+            Array.Copy(items, 1, newItems, 0, items.Length - 1);
+            return newItems;
+        }
     }
 
     public class List<T>
@@ -31,12 +35,8 @@ namespace DataStructures
                 ? _cons.Car
                 : _cons.Cdr.ListRef(index - 1);
 
-        public int Length => LengthIter(this, 0);
-
-        private static int LengthIter(List<T> list, int runningTotal) =>
-            list.Null
-                ? runningTotal
-                : LengthIter(list._cons.Cdr, runningTotal + 1);
+        public int Length => 
+            Null ? 0 : _cons.Cdr.Length + 1;
 
         public List<TOut> Map<TOut>(Func<T, TOut> proc) =>
             Null
