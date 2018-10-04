@@ -7,18 +7,18 @@ namespace DataStructures.Tests
     public class ListWithInsertedItemShould
     {
         [Property]
-        public void ReturnNewItemInsertedAt0(List<object> list, object item) => 
-            list.InsertAt(0, item).ListRef(0)
+        public void ReturnItemInsertedAtIndex(ListAndIndex listAndIndex, object item) =>
+            listAndIndex.List.InsertAt(listAndIndex.Index, item).ListRef(listAndIndex.Index)
                 .Should().Be(item);
 
+        [Property]
+        public void IncreaseInSizeWhenItemIsInserted(ListAndIndex listAndIndex, object item) =>
+            listAndIndex.List.InsertAt(listAndIndex.Index, item).Length
+                .Should().Be(listAndIndex.List.Length + 1);
+        
         [Property]
         public void ShiftOriginalFirstItemWhenItemIsInsertedAtHead(NonEmptyList<object> list, object item) =>
             list.InsertAt(0, item).ListRef(1)
                 .Should().Be(list.ListRef(0));
-
-        [Property]
-        public void ReturnNewItemInsertedAtEnd(List<object> list, object item) =>
-            list.InsertAt(list.Length, item).ListRef(list.Length)
-                .Should().Be(item);
     }
 }
